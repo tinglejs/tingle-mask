@@ -1,5 +1,3 @@
-import React from 'react';
-
 class Mask extends React.Component {
 
     constructor(props) {
@@ -70,6 +68,6 @@ Mask.defaultProps = {
     onHide: function () {}
 }
 
-Mask.global = React.render(<Mask/>, document.getElementById('TingleMask'));
+Mask.global = React.render(<Mask/>, document.getElementById('__TingleGlobalMask__'));
 
-export {Mask};
+module.exports = Mask;

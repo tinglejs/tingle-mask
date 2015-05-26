@@ -1,5 +1,4 @@
-import React from 'react';
-import {Mask} from '../src';
+var Mask = require('../src');
 
 // TODO: move the line to tingle-env
 React.initializeTouchEvents(true);
