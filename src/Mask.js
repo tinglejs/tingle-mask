@@ -62,12 +62,21 @@ class Mask extends React.Component {
 Mask.defaultProps = {
     className: '',
     zIndex: 1000,
-    opacity: 0,
+    opacity: 0.5,
     visible: false,
     onClick: function () {},
     onHide: function () {}
 }
 
-Mask.global = React.render(<Mask/>, document.getElementById('__TingleGlobalMask__'));
+var WRAPPER_ID = '__TingleGlobalMask__';
+var doc = document;
+var wrapper = doc.getElementById(WRAPPER_ID);
+if (!wrapper) {
+    wrapper = doc.createElement('div');
+    wrapper.id = WRAPPER_ID;
+    doc.body.appendChild(wrapper);
+}
+
+Mask.global = React.render(<Mask/>, wrapper);
 
 module.exports = Mask;
