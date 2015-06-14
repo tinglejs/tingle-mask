@@ -31,13 +31,16 @@ class Mask extends React.Component {
         t.el.style.opacity = 1;
     }
 
-    hide() {
+    hide(force) {
         var t = this;
-        t.el.style.opacity = 0;
-        setTimeout(function () {
-            t.el.classList.remove('visible');
-            t.state.onHide.call(t);
-        }, 200);
+        if (force || this.props.closeable) {
+            t.el.style.opacity = 0;
+            setTimeout(function () {
+                t.el.classList.remove('visible');
+                t.state.onHide.call(t);
+            }, 200);
+        }
+        
     }
 
     render() {
@@ -53,7 +56,7 @@ class Mask extends React.Component {
             <div ref="el" className={cls} style={{
                 backgroundColor: 'rgba(0, 0, 0, '+ t.state.opacity +')',
                 zIndex:  t.state.zIndex
-            }} onClick={t.hide.bind(this)}>
+            }} onClick={t.hide.bind(this, false)}>
             </div>
         );
     }
@@ -65,7 +68,8 @@ Mask.defaultProps = {
     opacity: 0.5,
     visible: false,
     onClick: function () {},
-    onHide: function () {}
+    onHide: function () {},
+    closeable: true
 }
 
 var WRAPPER_ID = '__TingleGlobalMask__';
@@ -77,6 +81,25 @@ if (!wrapper) {
     doc.body.appendChild(wrapper);
 }
 
-Mask.global = React.render(<Mask/>, wrapper);
+
+Mask.global = null;
+Mask.show = function (options) {
+    // 只有首次全局调用时，才会创建全局实例
+    if (!Mask.global) {
+        var wrapper = doc.getElementById(WRAPPER_ID);
+        if (!wrapper) {
+            wrapper = doc.createElement('div');
+            wrapper.id = WRAPPER_ID;
+            doc.body.appendChild(wrapper);
+        }
+        Mask.global = React.render(<Mask/>, wrapper);
+    }
+    Mask.global.show(options);
+}
+
+Mask.hide = function () {
+    Mask.global.hide(true);
+}
+
 
 module.exports = Mask;
