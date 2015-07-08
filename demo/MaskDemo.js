@@ -1,8 +1,5 @@
 var Mask = require('../src');
 
-// TODO: move the line to tingle-env
-React.initializeTouchEvents(true);
-
 class Demo extends React.Component {
 
     constructor(props) {
