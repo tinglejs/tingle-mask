@@ -17,7 +17,21 @@
     bottom 0
     display none
     opacity 0
-    -webkit-transition all 200ms
-    transition all 200ms
-    &.visible
-        display block
+    -webkit-animation-duration 200ms
+    -webkit-animation-fill-mode forwards
+    &.fadeIn
+        -webkit-animation-name _tempFadeIn
+    &.fadeOut
+        -webkit-animation-name _tempFadeOut
+
+// 临时性的
+@-webkit-keyframes _tempFadeIn
+    from
+        opacity 0
+    to
+        opacity 1
+@-webkit-keyframes _tempFadeOut
+    from
+        opacity 1
+    to
+        opacity 0

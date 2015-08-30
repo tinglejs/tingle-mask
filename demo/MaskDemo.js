@@ -28,10 +28,10 @@ class Demo extends React.Component {
         var t = this;
         return (
             <div className="tP10">
-                <h3 className="tF18 tMB6" onClick={t.showMask.bind(t, 'mask1')}>打开mask，默认透明度0.5</h3>
+                <h3 className="tF18 tMB6" onClick={t.showMask.bind(t, 'mask1')}>打开透明度0.5(默认)的mask</h3>
                 <Mask ref="mask1" onClick={t.hideMask.bind(t, 'mask1')}/>
 
-                <h3 className="tF18 tMB6" onClick={t.showMask.bind(t, 'mask2')}>打开mask，默认透明度0.2</h3>
+                <h3 className="tF18 tMB6" onClick={t.showMask.bind(t, 'mask2')}>打开透明度0.2的mask</h3>
                 <Mask ref="mask2" opacity={0.2} onClick={t.hideMask.bind(t, 'mask2')}/>
             </div>
         );

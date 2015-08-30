@@ -12,21 +12,26 @@ class Mask extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            visible: props.visible
-        }
+    }
+
+    componentDidMount() {
+        this.el = React.findDOMNode(this.refs.root);
     }
 
     show() {
-        this.setState({
-            visible: true
-        });
+        var t = this;
+        t.el.style.display = 'block';
+        t.el.classList.add('fadeIn');
     }
 
     hide() {
-        this.setState({
-            visible: false
-        });
+        var t = this;
+        t.el.classList.remove('fadeIn');
+        t.el.classList.add('fadeOut');
+        setTimeout(function () {
+            t.el.classList.remove('fadeOut');
+            t.el.style.display = 'none';
+        }, 200);
     }
 
     handleClick() {
@@ -37,11 +42,9 @@ class Mask extends React.Component {
         var t = this;
 
         return <div ref="root" className={classnames('tMask', {
-            visible: t.state.visible,
             [t.props.className]: !!t.props.className
         })} style={{
             backgroundColor: 'rgba(0, 0, 0, '+ t.props.opacity +')',
-            opacity: t.state.visible ? 1 : 0,
             zIndex:  t.props.zIndex
         }} onClick={t.handleClick.bind(t)}>
         </div>
@@ -51,7 +54,6 @@ class Mask extends React.Component {
 Mask.defaultProps = {
     onClick: Context.noop,
     opacity: 0.5,
-    visible: false,
     zIndex: 100
 }
 
@@ -60,7 +62,6 @@ Mask.propTypes = {
     className: React.PropTypes.string,
     onClick: React.PropTypes.func,
     opacity: React.PropTypes.number,
-    visible: React.PropTypes.bool,
     zIndex: React.PropTypes.number
 }
 

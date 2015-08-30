@@ -13,11 +13,30 @@
   bottom: 0;
   display: none;
   opacity: 0;
-  -webkit-transition: all 200ms;
-  transition: all 200ms;
+  -webkit-animation-duration: 200ms;
+  -webkit-animation-fill-mode: forwards;
 }
-.tMask.visible {
-  display: block;
+.tMask.fadeIn {
+  -webkit-animation-name: _tempFadeIn;
+}
+.tMask.fadeOut {
+  -webkit-animation-name: _tempFadeOut;
+}
+@-webkit-keyframes _tempFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes _tempFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /*# sourceMappingURL=Mask.css.map */
