@@ -1,4 +1,4 @@
-var Mask = require('../src');
+let Mask = require('../src');
 
 class Demo extends React.Component {
 
