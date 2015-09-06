@@ -43,7 +43,7 @@ handleMaskHide() {}
 
 render() {
     return (
-        <Mask opacity={0.5} 
+        <Mask opacity={0.6}
          onClick={this.handleMaskClick.bind(this)}
          onHide={this.handleMaskHide.bind(this)}/>
     )

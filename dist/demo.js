@@ -91,9 +91,9 @@
 	        key: 'showGlobalMask',
 	        value: function showGlobalMask() {
 	            Mask.show({
-	                opacity: 0.2,
+	                opacity: 0.6,
 	                // TODO
-	                // onClick: function () {
+	                // onClick: () =>{
 	                //     console.log('global mask click');
 	                // },
 	                onHide: function onHide() {
@@ -134,8 +134,6 @@
 	
 	    return Demo;
 	})(React.Component);
-	
-	;
 	
 	React.render(React.createElement(Demo, null), document.getElementById('TingleDemo'));
 
@@ -190,58 +188,55 @@
 	        this.state = {
 	            opacity: props.opacity,
 	            zIndex: props.zIndex,
-	            onHide: props.onHide
+	            onHide: props.onHide,
+	            closeable: props.closeable,
+	            visible: props.visible
 	        };
 	    }
 	
-	    _createClass(Mask, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            this.el = this.refs.el.getDOMNode();
-	        }
+	    /*
+	     options.onHide
+	     options.onClick
+	     options.opacity
+	     */
 	
-	        /*
-	         options.onHide
-	         options.onClick
-	         options.opacity
-	         */
-	    }, {
+	    _createClass(Mask, [{
 	        key: 'show',
 	        value: function show(options) {
-	            options = options || {};
 	            var t = this;
-	            t.el.classList.add('visible');
-	            t.el.offsetWidth;
+	
+	            options = options || {};
+	
 	            t.setState({
-	                opacity: options.opacity || t.props.opacity,
-	                onClick: options.onClick || t.props.onClick,
-	                onHide: options.onHide || t.props.onHide
+	                opacity: 'opacity' in options ? options.opacity : t.props.opacity,
+	                zIndex: options.zIndex || t.props.zIndex,
+	                onHide: options.onHide || t.props.onHide,
+	                closeable: 'closeable' in options ? options.closeable : t.props.closeable,
+	                visible: true
 	            });
-	            t.el.style.opacity = 1;
 	        }
 	    }, {
 	        key: 'hide',
 	        value: function hide(force) {
 	            var t = this;
-	            if (force || this.props.closeable) {
-	                t.el.style.opacity = 0;
-	                setTimeout(function () {
-	                    t.el.classList.remove('visible');
-	                    t.state.onHide.call(t);
-	                }, 200);
+	            if (force || t.state.closeable) {
+	                t.state.visible = false;
+	                t.setState(t.state);
+	                t.state.onHide.call(t);
 	            }
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var t = this;
-	
 	            var cls = classnames(_defineProperty({
-	                tMask: true
+	                tMask: true,
+	                visible: t.state.visible
 	            }, t.props.className, !!t.props.className));
 	
-	            return React.createElement('div', { ref: 'el', className: cls, style: {
-	                    backgroundColor: 'rgba(0, 0, 0, ' + t.state.opacity + ')',
+	            return React.createElement('div', { ref: 'root', className: cls, style: {
+	                    backgroundColor: 'rgba(19, 21, 26, ' + t.state.opacity + ')',
+	                    opacity: t.state.visible ? 1 : 0,
 	                    zIndex: t.state.zIndex
 	                }, onClick: t.hide.bind(this, false) });
 	        }
@@ -253,9 +248,8 @@
 	Mask.defaultProps = {
 	    className: '',
 	    zIndex: 1000,
-	    opacity: 0.5,
+	    opacity: 0.6,
 	    visible: false,
-	    onClick: Context.noop,
 	    onHide: Context.noop,
 	    closeable: true
 	};
@@ -279,13 +273,13 @@
 	            _wrapper.id = WRAPPER_ID;
 	            doc.body.appendChild(_wrapper);
 	        }
-	        Mask.global = React.render(React.createElement(Mask, null), _wrapper);
+	        Mask.global = React.render(React.createElement(Mask, { closeable: false }), _wrapper);
 	    }
 	    Mask.global.show(options);
 	};
 	
 	Mask.hide = function () {
-	    Mask.global.hide(true);
+	    Mask.global && Mask.global.hide(true);
 	};
 	
 	Mask.displayName = "mask";

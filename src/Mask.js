@@ -15,12 +15,10 @@ class Mask extends React.Component {
         this.state = {
             opacity: props.opacity,
             zIndex: props.zIndex,
-            onHide: props.onHide
+            onHide: props.onHide,
+            closeable: props.closeable,
+            visible: props.visible
         }
-    }
-
-    componentDidMount() {
-        this.el = this.refs.el.getDOMNode();
     }
 
     /*
@@ -29,40 +27,42 @@ class Mask extends React.Component {
      options.opacity
      */
     show(options) {
-        options = options || {};
         let t = this;
-        t.el.classList.add('visible');
-        t.el.offsetWidth;
+
+        options = options || {};
+
         t.setState({
-            opacity: options.opacity || t.props.opacity,
-            onClick: options.onClick || t.props.onClick,
-            onHide: options.onHide || t.props.onHide
+            opacity: 'opacity' in options ? options.opacity : t.props.opacity,
+            zIndex: options.zIndex || t.props.zIndex,
+            onHide: options.onHide || t.props.onHide,
+            closeable: 'closeable' in options ? options.closeable : t.props.closeable,
+            visible: true
         });
-        t.el.style.opacity = 1;
+
     }
 
     hide(force) {
         let t = this;
-        if (force || this.props.closeable) {
-            t.el.style.opacity = 0;
-            setTimeout(()=> {
-                t.el.classList.remove('visible');
-                t.state.onHide.call(t);
-            }, 200);
+        if (force || t.state.closeable) {
+            t.state.visible = false;
+            t.setState(t.state);
+            t.state.onHide.call(t);
         }
+
     }
 
     render() {
         let t = this;
-
         let cls = classnames({
             tMask: true,
+            visible: t.state.visible,
             [t.props.className]: !!t.props.className
         });
 
         return (
-            <div ref="el" className={cls} style={{
-                backgroundColor: 'rgba(0, 0, 0, ' + t.state.opacity + ')',
+            <div ref="root" className={cls} style={{
+                backgroundColor: 'rgba(19, 21, 26, ' + t.state.opacity + ')',
+                opacity: t.state.visible ? 1 : 0,
                 zIndex: t.state.zIndex
             }} onClick={t.hide.bind(this, false)}>
             </div>
@@ -73,9 +73,8 @@ class Mask extends React.Component {
 Mask.defaultProps = {
     className: '',
     zIndex: 1000,
-    opacity: 0.5,
+    opacity: 0.6,
     visible: false,
-    onClick: Context.noop,
     onHide: Context.noop,
     closeable: true
 };
@@ -100,14 +99,13 @@ Mask.show = (options) => {
             wrapper.id = WRAPPER_ID;
             doc.body.appendChild(wrapper);
         }
-        Mask.global = React.render(<Mask/>, wrapper);
+        Mask.global = React.render(<Mask closeable={false} />, wrapper);
     }
     Mask.global.show(options);
 };
 
-
 Mask.hide = () => {
-    Mask.global.hide(true);
+    Mask.global && Mask.global.hide(true);
 };
 
 Mask.displayName = "mask";

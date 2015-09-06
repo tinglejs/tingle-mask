@@ -19,12 +19,12 @@ class Demo extends React.Component {
     // 参数通过`Mask.show(options)`实现
     showGlobalMask() {
         Mask.show({
-            opacity: 0.2,
+            opacity: 0.6,
             // TODO
-            // onClick: function () {
+            // onClick: () =>{
             //     console.log('global mask click');
             // },
-            onHide: function () {
+            onHide: ()=> {
                 console.log('global mask hide');
             }
         });
@@ -41,6 +41,5 @@ class Demo extends React.Component {
             </div>
         );
     }
-};
-
+}
 React.render(<Demo/>, document.getElementById('TingleDemo'));
