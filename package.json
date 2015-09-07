@@ -1,20 +1,19 @@
 {
   "name": "tingle-mask",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "gnosaij",
     "email": ""
   },
+  "maintainers":[
+    "yize<yize.shc@gmail.com>"
+  ],
   "description": "mask component for tinglejs",
   "keywords": [
     "mask",
     "tingle"
   ],
   "repository": "https://github.com/tinglejs/tingle-mask.git",
-  "files": [
-    "src",
-    "README.md"
-  ],
   "main":"src/index.js",
   "dependencies": {
     "classnames": "^2.1.2",
