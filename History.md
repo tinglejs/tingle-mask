@@ -2,7 +2,7 @@
 0.0.3 / 2015-09-07
 ==================
 
- * fix npm output
+ * update tingle-style & tingle-context version
 
 0.0.2 / 2015-09-06
 ==================

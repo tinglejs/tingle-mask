@@ -5,7 +5,7 @@
     "name": "gnosaij",
     "email": ""
   },
-  "maintainers":[
+  "maintainers": [
     "yize<yize.shc@gmail.com>"
   ],
   "description": "mask component for tinglejs",
@@ -13,8 +13,12 @@
     "mask",
     "tingle"
   ],
+  "files": [
+    "src/",
+    "README.md"
+  ],
+  "main": "src/index.js",
   "repository": "https://github.com/tinglejs/tingle-mask.git",
-  "main":"src/index.js",
   "dependencies": {
     "classnames": "~2.1.2",
     "fastclick": "~1.0.6",
