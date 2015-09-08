@@ -1,6 +1,6 @@
 {
   "name": "tingle-mask",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": {
     "name": "gnosaij",
     "email": ""
@@ -23,7 +23,7 @@
     "classnames": "~2.1.2",
     "fastclick": "~1.0.6",
     "react": "^0.13.3",
-    "tingle-style": "~0.0.1",
+    "tingle-style": "~0.1.0",
     "tingle-context": "~0.1.0"
   },
   "devDependencies": {
