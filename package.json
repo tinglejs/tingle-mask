@@ -8,7 +8,7 @@
   "maintainers": [
     "yize<yize.shc@gmail.com>"
   ],
-  "description": "mask component for tinglejs",
+  "description": "遮罩层。",
   "keywords": [
     "mask",
     "tingle"
