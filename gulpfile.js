@@ -1,6 +1,7 @@
 /**
  * Icon Component Style for tingle
- * @author fushan, hanyu
+ * @author fushan
+ * @maintainer hanyu
  *
  * Copyright 2014-2016, Tingle Team.
  * All rights reserved.
@@ -171,6 +172,16 @@ gulp.task('develop', [
   ], ['reload_by_svg']);
 });
 
+gulp.task('build_css', function(cb) {
+  gulp.src(['./src/**/Mask.styl'])
+    .pipe(sourcemaps.init())
+    .pipe(stylus())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./dist'));
+  console.info('###### build_css done ######');
+  cb();
+});
+
 // 发布`Tingle component`之前要先build， 执行`gulp build` 或 `gulp b`
 gulp.task('build', function () {
   return gulp.src(__dirname + '/src/**/*.js')
@@ -187,7 +198,7 @@ gulp.task('build', function () {
 
 // 快捷方式
 gulp.task('d', ['develop']);
-gulp.task('b', ['build']);
+gulp.task('b', ['build', 'build_css']);
 
 // 保留nowa的命令
 gulp.task('server', ['develop']);

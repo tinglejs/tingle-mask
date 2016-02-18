@@ -1,6 +1,7 @@
 /**
  * Mask Component Demo for tingle
- * @author quanyun.mqy
+ * @author fushan
+ * @maintainer quanyun.mqy
  *
  * Copyright 2014-2016, Tingle Team.
  * All rights reserved.

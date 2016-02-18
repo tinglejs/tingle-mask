@@ -1,10 +1,12 @@
-node_modules/
+node_modules
 .deploy/
 design/
 .idea/
 docs/
 dist/
 demo/dist/
+src/*.css
+src/*.css.map
 
 # Packages #
 ############

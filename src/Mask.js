@@ -1,116 +1,75 @@
 /**
  * Mask Component for tingle
- * @author quanyun.mqy
+ * @author fushan
+ * @maintainer quanyun.mqy
  *
  * Copyright 2014-2016, Tingle Team.
  * All rights reserved.
  */
 const classnames = require('classnames');
-const Context = require('tingle-context');
+const {noop} = require('tingle-context');
 
 class Mask extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      opacity: props.opacity,
-      zIndex: props.zIndex,
-      onHide: props.onHide,
-      closeable: props.closeable,
       visible: props.visible
-    }
+    };
   }
 
-  /*
-   options.onHide
-   options.onClick
-   options.opacity
-   */
-  show(options) {
-    let t = this;
-
-    options = options || {};
-
-    t.setState({
-      opacity: 'opacity' in options ? options.opacity : t.props.opacity,
-      zIndex: options.zIndex || t.props.zIndex,
-      onHide: options.onHide || t.props.onHide,
-      closeable: 'closeable' in options ? options.closeable : t.props.closeable,
+  show() {
+    this.setState({
       visible: true
     });
-
   }
 
-  hide(force) {
-    let t = this;
-    if (force || t.state.closeable) {
-      t.state.visible = false;
-      t.setState(t.state);
-      t.state.onHide.call(t);
-    }
+  hide() {
+    this.setState({
+      visible: false
+    });
+    this.props.onHide();
+  }
 
+  handleClick() {
+    let t = this;
+    t.props.closeable && t.hide();
+    t.props.onClick();
   }
 
   render() {
     let t = this;
-    let cls = classnames({
-      tMask: true,
-      visible: t.state.visible,
-      [t.props.className]: !!t.props.className
-    });
+    let {className, onClick, style, ...other} = t.props;
 
-    return (
-      <div ref="root" className={cls} style={{
-                backgroundColor: 'rgba(19, 21, 26, ' + t.state.opacity + ')',
-                opacity: t.state.visible ? 1 : 0,
-                zIndex: t.state.zIndex
-            }} onClick={t.hide.bind(this, false)}>
-      </div>
-    );
+    return <div ref='root' className={classnames('tMask', {
+      visible: t.state.visible,
+      [className]: className
+    })} style={{
+      backgroundColor: 'rgba(0, 0, 0, ' + t.props.opacity + ')',
+      opacity: t.state.visible ? 1 : 0,
+      zIndex: t.props.zIndex
+    }} onClick={t.handleClick.bind(this, false)} {...other}></div>;
   }
 }
 
 Mask.defaultProps = {
-  className: '',
-  zIndex: 1000,
+  closeable: true,
   opacity: 0.6,
+  onClick: noop,
+  onHide: noop,
   visible: false,
-  onHide: Context.noop,
-  closeable: true
+  zIndex: 1000
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Mask.propTypes = {
-  className: React.PropTypes.string
-};
-
-let WRAPPER_ID = '__TingleGlobalMask__';
-let doc = document;
-let wrapper = doc.getElementById(WRAPPER_ID);
-if (!wrapper) {
-  wrapper = doc.createElement('div');
-  wrapper.id = WRAPPER_ID;
-  doc.body.appendChild(wrapper);
-}
-
-
-Mask.global = null;
-Mask.show = (options) => {
-  // 只有首次全局调用时，才会创建全局实例
-  if (!Mask.global) {
-    let wrapper = doc.getElementById(WRAPPER_ID);
-    if (!wrapper) {
-      wrapper = doc.createElement('div');
-      wrapper.id = WRAPPER_ID;
-      doc.body.appendChild(wrapper);
-    }
-    Mask.global = ReactDOM.render(<Mask closeable={false} />, wrapper);
-  }
-  Mask.global.show(options);
-};
-
-Mask.hide = () => {
-  Mask.global && Mask.global.hide(true);
+  className: React.PropTypes.string,
+  closeable: React.PropTypes.bool,
+  onClick: React.PropTypes.func,
+  onHide: React.PropTypes.func,
+  opacity: React.PropTypes.number,
+  visible: React.PropTypes.bool,
+  zIndex: React.PropTypes.number
 };
 
 Mask.displayName = 'Mask';
