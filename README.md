@@ -1,6 +1,14 @@
-# tingle-mask
+# tingle-mask [![npm version](https://badge.fury.io/js/tingle-mask.svg)](http://badge.fury.io/js/tingle-mask)
 
-The `Mask Component` for tingle
+## Install
+
+```
+npm install tingle-mask --save
+```
+
+## Props
+
+## Demos
 
 ## 声明模块
 
@@ -23,7 +31,6 @@ Mask.show({
 	// 遮罩层关闭以后的回调
 	onHide: function () {}
 });
-```
 
 #### `Mask.hide()`
 
@@ -50,7 +57,6 @@ render() {
 }
 ```
 
+## Links
 
-
-
-
+- [Issues](http://github.com/tinglejs/tingle-mask/issues)
